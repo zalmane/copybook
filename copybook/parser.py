@@ -31,8 +31,8 @@ numeric_pic = Group(
     )
     + Optional(
         (
-            ("V"+FollowedBy("9"))
-            | ("."+FollowedBy("9"))
+            ("V"+FollowedBy("9")("implied_decimal"))
+            | ("."+FollowedBy("9")("explicit_decimal"))
         )
         # bracket notation, e.g. 9(13)
         + (
@@ -66,7 +66,7 @@ field_title = Word(alphanums+"-_")
 
 field_group = (
     Word(nums)("level") 
-    + field_title("title") 
+    + field_title("name") 
     + Optional(
         Suppress("REDEFINES")
         + Word(alphanums+"-")("redefine_target")
@@ -83,12 +83,12 @@ QuotedString("'")("value")
 
 field = (
     Word(nums)("level") 
-    + field_title("title") 
+    + field_title("name") 
     + pic_expr
     + "."
     + ZeroOrMore(
         Group(Suppress("88")
-        + Word(alphanums+"-")("title") 
+        + Word(alphanums+"-")("name") 
         + Suppress("VALUE")
         + SkipTo(".")("value")
         + "."
@@ -102,7 +102,9 @@ non_field_row = Group(
 )
 EOF_CHR = "\x1a"
 stmt << (
-    Suppress(SkipTo( LineStart() + Word("01",exact=True)))
+    Suppress(
+        SkipTo( Combine(LineStart() +" "*6 + Char(" *") + ZeroOrMore(White()) + Keyword("01") ).leaveWhitespace())
+    )
     + OneOrMore(
         (
             field_group.setParseAction(FieldGroup)

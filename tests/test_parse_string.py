@@ -16,8 +16,9 @@ tests = {
        01  WORK-BOOK.                                                             
        10  TAX-RATE              PIC 9(3).
 """,
-"no header text":"""01  RECORD.                                                             
-05  TAX-RATE              PIC 9(3).
+"no header text":"""
+       01  RECORD.                                                             
+        05  TAX-RATE              PIC 9(3).
 """,
 "numeric pic no precision":"""
        01  WORK-BOOK.                                                             
@@ -76,6 +77,7 @@ from pyparsing import ParseException
 def test_parse_string():
     failed =0
     for test_name,test in tests.items():
+        print(test_name)
         try:
             root = copybook.parse_string(test)
         except ParseException as pe:

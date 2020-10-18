@@ -13,6 +13,7 @@ setup(
     version="1.0.1",
     description="python copybook parser",
     long_description=README,
+    
     long_description_content_type="text/markdown",
     url="https://github.com/zalmane/copybook",
     author="Oren Elias",
