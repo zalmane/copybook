@@ -10,13 +10,13 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="copybook",
-    version="1.0.0",
+    version="1.0.1",
     description="python copybook parser",
     long_description=README,
     long_description_content_type="text/markdown",
     url="https://github.com/zalmane/copybook",
     author="Oren Elias",
-    author_email="oren@datayoga.io",
+    author_email="support@datayoga.io",
     license="MIT",
     classifiers=[
         "License :: OSI Approved :: MIT License",
@@ -26,4 +26,6 @@ setup(
     packages=["copybook"],
     include_package_data=True,
     install_requires=['pyparsing'],
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest'],
 )

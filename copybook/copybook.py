@@ -7,7 +7,7 @@ def parse_file(filename:str) -> FieldGroup:
     return _list_to_tree(result)
 
 def parse_string(contents:str) -> FieldGroup:
-    result:FieldGroup = stmt.parseString(filename,parseAll=True)
+    result:FieldGroup = stmt.parseString(contents,parseAll=True)
     # rearrange in a tree structure
     return _list_to_tree(result)
 
