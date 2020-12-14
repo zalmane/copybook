@@ -57,6 +57,15 @@ class Field(AbstractField):
             self.length +\
             self.precision 
 
+    def parse(self,input:str):
+        if self.datatype=="str":
+            return input
+        elif self.datatype=="int":
+            return int(input)
+        elif self.datatype=="decimal":
+            # put a decimal notation and parse as float
+            return float(f"{input[0:self.length]}.{input[-self.precision:]}")
+
     def __repr__(self):
         return_value = f"name: {self.name}\n- type: {self.datatype}\n- length: {self.length}\n- precision {self.precision}"
         if self.list_of_values != {}:

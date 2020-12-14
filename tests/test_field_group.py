@@ -222,8 +222,8 @@ def test_flat_list():
     fg.children.append(inner_fg2)
     fg.calculate_positions()
 
-    assert {child.name for child in fg.to_flat_list()}=={"test","test_inner","test_inner2","inner_field1","inner_field2","inner_field2_1","inner_field2_2"}
-    assert {child.name:child.start_pos for child in fg.to_flat_list()}=={
+    assert {child.name for child in fg.flatten()}=={"test","test_inner","test_inner2","inner_field1","inner_field2","inner_field2_1","inner_field2_2"}
+    assert {child.name:child.start_pos for child in fg.flatten()}=={
         "test":0,
         "test_inner":0,
         "test_inner2":4,

@@ -50,12 +50,12 @@ class FieldGroup(AbstractField):
                     self.children.insert(i,newchild)
 
 
-    def to_flat_list(self):
+    def flatten(self):
         # flatten the tree into a flat list of Fields
         return_list = [self]
         for child in self.children:
             if type(child)==FieldGroup:
-                return_list.extend(child.to_flat_list())
+                return_list.extend(child.flatten())
             else:
                 return_list.append(child)
         return return_list

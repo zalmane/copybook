@@ -36,12 +36,48 @@ text = """
 root = copybook.parse_string(text)
 ```
 
+## Using Copybook module to parse a fixed width line
+
+The `FieldGroup` object provides a `flatten` method that return a flat list of `Field` objects.
+
+Example:
+```
+import copybook
+text = """
+       01  WORK-BOOK.                                  
+        10  TAX-RATE        PIC S9(13)V9(2)                
+                    SIGN LEADING SEPARATE.                                     
+        10  AMOUNT        PIC S9(4)V9(2).                
+"""
+# copybook also provides a parse_file method that receives a text filename
+root = copybook.parse_string(text)
+
+# flatten returns a list of Fields and FieldGroups instead of traversing the tree
+list_of_fields = root.flatten()
+
+# dummy sample input
+line = "          -13452987654"
+
+# loop over the fields and parse the relevant position in the line
+for field in list_of_fields:
+
+  # FieldGroups are Copybook groups and contain Field objects as children
+  if type(field)==copybook.Field:
+
+    # each Field has a start_pos and a get_total_length method
+    # to identify the position within the raw line input
+    str_field = line[field.start_pos:field.start_pos+field.get_total_length()]
+
+    # Field provides a parse method that returns a str, int, or float based on the PIC
+    print(f"{field.name}: {field.parse(str_field)}")
+```
+
 # Development
 
 PRs are always welcome!
 
 # Support
-If you encounter an unsupported copybook feature, please paste the copybook example along with whatever logs or error message you have received.
+If you encounter an unsupported copybook feature, please paste the copybook example along with whatever logs or error message you have received and open an issue.
 
 # Gratitude
 Copybook uses the awesome PyParsing library for tokenization
