@@ -1,7 +1,11 @@
+[![Downloads](https://pepy.tech/badge/copybook)](https://pepy.tech/project/copybook)
+
 # Copybook
-Copybook is a python module for parsing VSAM copybooks. 
+
+Copybook is a python module for parsing VSAM copybooks.
 
 # Features
+
 - Supports all numeric PIC variations including:
   - integers
   - floats described with dot notation
@@ -22,6 +26,7 @@ pip install copybook
 ```
 
 # Usage
+
 Copybook provides two methods for parsing copybooks: `parse_file` and `parse_string`. The result is a `FieldGroup` object that represents the root of the copybook tree.
 
 Examples:
@@ -29,9 +34,9 @@ Examples:
 ```
 import copybook
 text = """
-       01  WORK-BOOK.                                  
-        10  TAX-RATE        PIC S9(13)V9(2)                
-                    SIGN LEADING SEPARATE.                                     
+       01  WORK-BOOK.
+        10  TAX-RATE        PIC S9(13)V9(2)
+                    SIGN LEADING SEPARATE.
 """
 root = copybook.parse_string(text)
 ```
@@ -41,13 +46,14 @@ root = copybook.parse_string(text)
 The `FieldGroup` object provides a `flatten` method that return a flat list of `Field` objects.
 
 Example:
+
 ```
 import copybook
 text = """
-       01  WORK-BOOK.                                  
-        10  TAX-RATE        PIC S9(13)V9(2)                
-                    SIGN LEADING SEPARATE.                                     
-        10  AMOUNT        PIC S9(4)V9(2).                
+       01  WORK-BOOK.
+        10  TAX-RATE        PIC S9(13)V9(2)
+                    SIGN LEADING SEPARATE.
+        10  AMOUNT        PIC S9(4)V9(2).
 """
 # copybook also provides a parse_file method that receives a text filename
 root = copybook.parse_string(text)
@@ -77,12 +83,13 @@ for field in list_of_fields:
 PRs are always welcome!
 
 # Support
+
 If you encounter an unsupported copybook feature, please paste the copybook example along with whatever logs or error message you have received and open an issue.
 
 # Gratitude
+
 Copybook uses the awesome PyParsing library for tokenization
 
 # License
+
 MIT
-
-
