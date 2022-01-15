@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="copybook",
-    version="1.0.4",
+    version="1.0.5",
     description="python copybook parser",
     long_description=README,
     
