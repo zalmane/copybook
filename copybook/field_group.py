@@ -15,15 +15,18 @@ class FieldGroup(AbstractField):
         self.start_pos = start_pos
         # loop through the children and update the positions
         for child in self.children:
-            if type(child)==FieldGroup:
-                # handle redefines
-                if child.redefine_target is not None:
-                    # redefine means the position is that of a group we already encountered. find it
-                    target = self.get_child_by_name(child.redefine_target)
+            # handle redefines
+            if child.redefine_target is not None:
+                # redefine means the position is that of a group we already encountered. find it
+                target = self.get_child_by_name(child.redefine_target)
+                if type(child)==FieldGroup:
                     child.calculate_positions(target.start_pos)
-                    # skip to the next. do not pass go, do not collect $200
-                    continue
+                else:
+                    child.start_pos = target.start_pos
+                # skip to the next without advancing the start_pos. do not pass go, do not collect $200
+                continue
 
+            if type(child)==FieldGroup:
                 child.calculate_positions(start_pos)
                 # handle redefines and occurs
             child.start_pos = start_pos
@@ -66,7 +69,9 @@ class FieldGroup(AbstractField):
     def get_total_length(self) -> int:
         total_length = 0
         for child in self.children:
-            total_length += child.get_total_length()
+            # if this is a 'redefine' it does not occupy any space
+            if child.redefine_target is None:
+                total_length += child.get_total_length()
 
         return total_length
 

@@ -84,6 +84,10 @@ QuotedString("'")("value")
 field = (
     Word(nums)("level") 
     + field_title("name") 
+    + Optional(
+        Suppress("REDEFINES")
+        + Word(alphanums+"-")("redefine_target")
+    )
     + pic_expr
     + "."
     + ZeroOrMore(

@@ -5,6 +5,7 @@ class Field(AbstractField):
         super().__init__(level=int(toks["level"]),name=toks["name"])
         self.toks = toks
         self.list_of_values = {}
+        self.redefine_target = toks.get("redefine_target")
         self.length = 0
         self.precision = 0
         self.signed = False

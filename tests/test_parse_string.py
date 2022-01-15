@@ -85,3 +85,28 @@ def test_parse_string():
             print(f"test failed: {test_name}")
             print(pe)
     assert failed==0
+
+def test_string_pic_with_leading_0s():
+    result = copybook.parse_string(tests["string pic with leading 0s"]).flatten()
+    assert len(result)==2
+    assert type(result[1])==copybook.Field
+    assert result[1].datatype=='str'
+    assert result[1].length==5
+    assert result[1].get_total_length()==5
+    assert result[1].start_pos==0
+
+def test_redefines_field():
+    test_str = """
+       01 POLICY.
+           05 POLICY-KEY  PIC 9(5).
+           05 POLICY-HOLDER-KEY  PIC 9(10).
+           05 PRODUCT-KEY REDEFINES POLICY-HOLDER-KEY PIC X(10).
+    """
+    result = copybook.parse_string(test_str).flatten()
+    assert len(result)==4
+    assert [type(i) for i in result]==[copybook.FieldGroup,copybook.Field,copybook.Field,copybook.Field]
+    assert result[2].datatype=='int' and result[3].datatype=='str'
+    assert result[1].length==5 and result[2].length==10 and result[3].length==10
+    assert result[0].get_total_length()==15
+    assert result[2].get_total_length()==10 and result[3].get_total_length()==10
+    assert [i.start_pos for i in result]==[0,0,5,5]
