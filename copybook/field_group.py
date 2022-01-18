@@ -44,7 +44,7 @@ class FieldGroup(AbstractField):
         for i in range(childcount,0,-1):
             # we reverse loop since we are changing the list within the loop
             child = self.children[i-1]
-            if type(child)==FieldGroup and child.repeat>1:
+            if child.repeat>1:
                 # deep copy
                 for clone_number in range(child.repeat,1,-1):
                     newchild = copy.deepcopy(child)

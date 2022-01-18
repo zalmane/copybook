@@ -74,6 +74,7 @@ field_group = (
     + Optional(
         "OCCURS"
         + Word(nums)("occurs")
+        + Optional("TIMES")
     )
     + "."
 )
@@ -87,6 +88,11 @@ field = (
     + Optional(
         Suppress("REDEFINES")
         + Word(alphanums+"-")("redefine_target")
+    )
+    + Optional(
+        "OCCURS"
+        + Word(nums)("occurs")
+        + Optional("TIMES")
     )
     + pic_expr
     + "."

@@ -110,3 +110,15 @@ def test_redefines_field():
     assert result[0].get_total_length()==15
     assert result[2].get_total_length()==10 and result[3].get_total_length()==10
     assert [i.start_pos for i in result]==[0,0,5,5]
+
+def test_occurs_field():
+    test_str = """
+       01 POLICY.
+         05 POLICY-KEY         PIC 9(10).
+         05 ROW-EFFECTIVE-DT   OCCURS 3 TIMES PIC 9(8).
+     """
+    result = copybook.parse_string(test_str).flatten()
+    assert len(result)==5
+    assert [type(i) for i in result]==[copybook.FieldGroup,copybook.Field,copybook.Field,copybook.Field,copybook.Field]
+    assert result[0].get_total_length()==10+8*3
+    assert [i.start_pos for i in result]==[0,0,10,18,26]

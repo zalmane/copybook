@@ -6,6 +6,7 @@ class Field(AbstractField):
         self.toks = toks
         self.list_of_values = {}
         self.redefine_target = toks.get("redefine_target")
+        self.repeat = int(toks.get("occurs","1"))
         self.length = 0
         self.precision = 0
         self.signed = False
