@@ -33,7 +33,7 @@ jobs:
     - name: update setup.py
       run: |
         pip install bump2version
-        bump2version --current-version 0.0.0 --new-version ${{steps.bump_version.outputs.new_tag}} patch setup.py        
+        bump2version --current-version 0.0.0 --new-version "${{steps.bump_version.outputs.new_tag}}" patch setup.py        
     - name: Build and publish
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
