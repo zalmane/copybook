@@ -4,16 +4,31 @@
 name: Upload Python Package
 
 on:
-  release:
-    types: [created]
-
+  push:
+    branches:
+      - master
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: '0'
   deploy:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
+    - name: bump_version
+      uses: anothrNick/github-tag-action@1.36.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: true
+        DEFAULT_BUMP: patch
+    - name: update setup.py
+      run: |
+        bump2version --current-version 0.0.0 --new-version ${steps.bump_version.outputs.new_tag} patch setup.py        
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
