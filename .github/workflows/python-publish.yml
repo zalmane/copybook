@@ -20,15 +20,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: bump_version
-      uses: anothrNick/github-tag-action@1.36.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        WITH_V: true
-        DEFAULT_BUMP: patch
-    - name: update setup.py
-      run: |
-        bump2version --current-version 0.0.0 --new-version ${steps.bump_version.outputs.new_tag} patch setup.py        
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -37,6 +28,19 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
+    - name: pytest
+      run: |
+        PYTHONPATH=. pytest
+    - name: bump_version
+      uses: anothrNick/github-tag-action@1.36.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: true
+        DEFAULT_BUMP: patch
+    - name: update setup.py
+      run: |
+        pip install bump2version
+        bump2version --current-version 0.0.0 --new-version ${steps.bump_version.outputs.new_tag} patch setup.py        
     - name: Build and publish
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
