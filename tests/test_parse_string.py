@@ -122,3 +122,27 @@ def test_occurs_field():
     assert [type(i) for i in result]==[copybook.FieldGroup,copybook.Field,copybook.Field,copybook.Field,copybook.Field]
     assert result[0].get_total_length()==10+8*3
     assert [i.start_pos for i in result]==[0,0,10,18,26]
+
+def test_char_x_pic():
+    test_str = """
+       01  WORK-BOOK.
+         10 TAX-RATE PIC S9(13)V9(2) SIGN LEADING SEPARATE.
+         10  AMOUNT        PIC X(2).
+         10  AMOUNT2       PIC S9(4)V9(2).
+     """
+    result = copybook.parse_string(test_str).flatten()
+    assert len(result)==4
+    assert result[2].datatype=="str"
+    assert result[2].get_total_length()==2
+
+def test_extended_char_pic():
+    test_str = """
+       01  WORK-BOOK.
+         10 TAX-RATE PIC S9(13)V9(2) SIGN LEADING SEPARATE.
+         10  AMOUNT        PIC XX.
+         10  AMOUNT2       PIC S9(4)V9(2).
+     """
+    result = copybook.parse_string(test_str).flatten()
+    assert len(result)==4
+    assert result[2].datatype=="str"
+    assert result[2].get_total_length()==2

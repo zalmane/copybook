@@ -7,10 +7,13 @@ stmt = Forward()
 LPAR, RPAR, COMMA = map(Suppress, "(),")
 
 char_pic = Group(
-    Suppress("X")
+    # bracket notation, e.g. X(2)
+    (Suppress("X")
     + LPAR
     + Word(nums)("length")
-    + RPAR
+    + RPAR)
+    # picture notation, e.g. XX
+    | OneOrMore("X").setParseAction(lambda tokens: len(tokens))("length")
 )("type_string")
 
 numeric_pic = Group(
