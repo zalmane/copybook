@@ -98,6 +98,10 @@ field = (
         + Optional("TIMES")
     )
     + pic_expr
+    + Optional(
+        "VALUE"
+        + SkipTo(".")
+    )
     + "."
     + ZeroOrMore(
         Group(Suppress("88")
