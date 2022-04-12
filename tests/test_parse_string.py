@@ -146,3 +146,23 @@ def test_extended_char_pic():
     assert len(result)==4
     assert result[2].datatype=="str"
     assert result[2].get_total_length()==2
+
+def test_plus_sign_control_symbol():
+    test_str = """
+       01  WORK-BOOK.
+         10  AMOUNT2       PIC +9(4).99.
+    """
+    result = copybook.parse_string(test_str).flatten()
+    assert len(result)==2
+    assert result[1].datatype=="decimal"
+    assert result[1].get_total_length()==7
+
+def test_minus_sign_control_symbol():
+    test_str = """
+       01  WORK-BOOK.
+         10  AMOUNT2       PIC -9(4).99.
+    """
+    result = copybook.parse_string(test_str).flatten()
+    assert len(result)==2
+    assert result[1].datatype=="decimal"
+    assert result[1].get_total_length()==7
