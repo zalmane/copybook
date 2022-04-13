@@ -34,8 +34,8 @@ numeric_pic = Group(
     )
     + Optional(
         (
-            ("V"+FollowedBy("9")("implied_decimal"))
-            | ("."+FollowedBy("9")("explicit_decimal"))
+            ("V"+FollowedBy("9"))("implied_decimal")
+            | ("."+FollowedBy("9"))("explicit_decimal")
         )
         # bracket notation, e.g. 9(13)
         + (

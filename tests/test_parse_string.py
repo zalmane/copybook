@@ -155,7 +155,7 @@ def test_plus_sign_control_symbol():
     result = copybook.parse_string(test_str).flatten()
     assert len(result)==2
     assert result[1].datatype=="decimal"
-    assert result[1].get_total_length()==7
+    assert result[1].get_total_length()==8
 
 def test_minus_sign_control_symbol():
     test_str = """
@@ -165,4 +165,15 @@ def test_minus_sign_control_symbol():
     result = copybook.parse_string(test_str).flatten()
     assert len(result)==2
     assert result[1].datatype=="decimal"
+    assert result[1].get_total_length()==8
+
+def test_explicit_decimal():
+    test_str = """
+       01  WORK-BOOK.
+         10  AMOUNT2       PIC 9(4).99.
+    """
+    result = copybook.parse_string(test_str).flatten()
+    assert len(result)==2
+    assert result[1].datatype=="decimal"
+    assert result[1].explicit_decimal == True
     assert result[1].get_total_length()==7
