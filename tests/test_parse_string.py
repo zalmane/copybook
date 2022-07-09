@@ -66,9 +66,13 @@ tests = {
         10  TAX-RATE        PIC S9(13)V9(2)                
                     SIGN LEADING SEPARATE.                                     
 """,
-"numeric pic signed with leading decimal":"""
+"numeric pic signed with leading literal decimal":"""
        01  WORK-BOOK.                                                             
-        10  TAX-RATE        PIC +.9999999.
+        10  TAX-RATE              PIC +.999.
+""",
+"numeric pic signed with leading implied decimal":"""
+       01  WORK-BOOK.                                                             
+        10  TAX-RATE              PIC +V999.
 """,
 "string pic with leading 0s":"""
        01  WORK-BOOK.                                                             
@@ -192,7 +196,7 @@ def test_explicit_decimal():
     assert result[1].explicit_decimal == True
     assert result[1].get_total_length()==7
 
-def test_plus_sign_and_leading_explicit_decimal():
+def test_signed_leading_literal_decimal():
     test_str = """
        01  WORK-BOOK.
          10  AMOUNT2       PIC +.9(7).
@@ -202,3 +206,15 @@ def test_plus_sign_and_leading_explicit_decimal():
     assert result[1].datatype=="decimal"
     assert result[1].explicit_decimal == True
     assert result[1].get_total_length()==9
+
+
+def test_signed_leading_implied_decimal():
+    test_str = """
+       01  WORK-BOOK.
+         10  AMOUNT2       PIC +V9(7).
+    """
+    result = copybook.parse_string(test_str).flatten()
+    assert len(result)==2
+    assert result[1].datatype=="decimal"
+    assert result[1].explicit_decimal == False
+    assert result[1].get_total_length()==8
