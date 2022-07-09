@@ -20,6 +20,7 @@ numeric_pic = Group(
     Optional(
         Suppress("S")("signed")
         | (one_of("+ -")+FollowedBy("9"))("signed")
+        | (one_of("+ -")+FollowedBy(".9"))("signed")
     )
     + Optional(
         # bracket notation, e.g. 9(13)
