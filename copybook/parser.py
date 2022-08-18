@@ -19,9 +19,9 @@ char_pic = Group(
 numeric_pic = Group(
     Optional(
         Suppress("S")("signed")
-        | (one_of("+ -")+FollowedBy("9"))("signed")
-        | (one_of("+ -")+FollowedBy(".9"))("signed")
-        | (one_of("+ -")+FollowedBy("V9"))("signed")
+        | (oneOf("+ -")+FollowedBy("9"))("signed")
+        | (oneOf("+ -")+FollowedBy(".9"))("signed")
+        | (oneOf("+ -")+FollowedBy("V9"))("signed")
     )
     + Optional(
         # bracket notation, e.g. 9(13)
