@@ -155,7 +155,7 @@ def test_extended_char_pic():
     assert result[2].datatype=="str"
     assert result[2].get_total_length()==2
 
-def test_ignore_value_clause():
+def test_value_clause1():
     test_str = """
        01  WORK-BOOK.
          10  FILLER       PIC X(01) VALUE X'05'.
@@ -164,6 +164,18 @@ def test_ignore_value_clause():
     assert len(result)==2
     assert result[1].datatype=="str"
     assert result[1].get_total_length()==1
+    assert result[1].default_value=="05"
+
+def test_value_clause2():
+    test_str = """
+       01  WORK-BOOK.
+         10  FIELD-A       PIC X(6) VALUE "HELLO!".
+    """
+    result = copybook.parse_string(test_str).flatten()
+    assert len(result)==2
+    assert result[1].datatype=="str"
+    assert result[1].get_total_length()==6
+    assert result[1].default_value=="HELLO!"
 
 def test_plus_sign_control_symbol():
     test_str = """

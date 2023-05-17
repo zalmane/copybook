@@ -102,7 +102,10 @@ field = (
     + pic_expr
     + Optional(
         "VALUE"
-        + SkipTo(".")
+        + (
+            (Suppress("X") + QuotedString("'")("default_value"))
+            | QuotedString("\"")("default_value")
+        )
     )
     + "."
     + ZeroOrMore(

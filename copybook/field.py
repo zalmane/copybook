@@ -13,6 +13,7 @@ class Field(AbstractField):
         self.compressed = False
         self.signed_trailing = False
         self.explicit_decimal = False
+        self.default_value = None
 
         if toks.get("type_numeric") is not None:
             type_descriptor = toks.get("type_numeric")
@@ -39,6 +40,8 @@ class Field(AbstractField):
             # validate
             if self.length==0 and self.precision==0:
                 raise ParseException(f"can't parse PIC for {toks}")
+
+            self.default_value = toks.get("default_value")
         elif toks.get("type_string"):
             # a string PIC
             type_descriptor = toks.get("type_string")
@@ -50,6 +53,8 @@ class Field(AbstractField):
             if toks.get("values"):
                 for val in toks.get("values"):
                     self.list_of_values[val.get("name")] = val.get("value")
+
+            self.default_value = toks.get("default_value")
         else:
             # no type descriptor
             raise ParseException(f"unknown data type: {toks}")
