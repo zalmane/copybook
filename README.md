@@ -1,3 +1,5 @@
+
+
 [![Downloads](https://pepy.tech/badge/copybook)](https://pepy.tech/project/copybook)
 
 # Copybook
@@ -43,7 +45,7 @@ root = copybook.parse_string(text)
 
 ## Using Copybook module to parse a fixed width line
 
-The `FieldGroup` object provides a `flatten` method that return a flat list of `Field` objects.
+The `FieldGroup` object provides a `flatten` method that returns a flat list of `Field` objects.
 
 Example:
 
